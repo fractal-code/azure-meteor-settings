@@ -40,7 +40,7 @@ var AzureMethods = function () {
   function AzureMethods(settingsFile) {
     _classCallCheck(this, AzureMethods);
 
-    this.meteorSettings = (0, _lodash2.default)(settingsFile, 'meteor-azure');
+    this.meteorSettings = (0, _lodash2.default)(settingsFile, 'azure-meteor-settings');
 
     // Ensure settings for single-site (object) and multi-site (array of objects) are interoperable
     this.sites = settingsFile['azure-meteor-settings'];

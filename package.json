@@ -4,7 +4,7 @@
   "description": "Update Meteor settings on Azure App Service",
   "main": "distribution/main.js",
   "bin": {
-    "meteor-azure": "./distribution/bin/meteor-azure.js"
+    "azure-meteor-settings": "./distribution/bin/azure-meteor-settings.js"
   },
   "watch": {
     "build": "source"
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fractal-code/meteor-azure.git"
+    "url": "git+https://github.com/fractal-code/azure-meteor-settings.git"
   },
   "author": "Rami Jarrar <rami@talos.email>",
   "license": "MIT",

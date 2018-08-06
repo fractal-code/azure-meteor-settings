@@ -6,7 +6,7 @@ import updateNotifier from 'update-notifier';
 import winston from 'winston';
 import pkg from '../../package.json';
 import AzureMethods from './azure';
-import { validateSettings } from './validation';
+import validateSettings from './validation';
 
 // Notify user of available updates
 updateNotifier({ pkg }).notify();

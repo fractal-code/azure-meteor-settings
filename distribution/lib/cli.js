@@ -28,6 +28,8 @@ var _azure2 = _interopRequireDefault(_azure);
 
 var _validation = require('./validation');
 
+var _validation2 = _interopRequireDefault(_validation);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } // CLI setup
@@ -65,7 +67,7 @@ exports.default = function () {
             // Validate settings file(s)
             settingsFilePaths = _commander2.default.settings.split(',');
             settingsFiles = settingsFilePaths.map(function (path) {
-              return (0, _validation.validateSettings)(path);
+              return (0, _validation2.default)(path);
             });
 
             // Push Meteor settings

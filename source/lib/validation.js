@@ -26,7 +26,6 @@ export default function validateSettings(filePath) {
     tenantId: Joi.string(),
     subscriptionId: Joi.string(),
     deploymentCreds: Joi.object({ username: Joi.string(), password: Joi.string() }),
-    envVariables: Joi.object({ ROOT_URL: Joi.string(), MONGO_URL: Joi.string() }).unknown(true),
     slotName: Joi.string().optional(),
     customServerInitRepo: Joi.string().optional(),
     servicePrincipal: Joi.object({ appId: Joi.string(), secret: Joi.string() }).optional(),

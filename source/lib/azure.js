@@ -9,7 +9,11 @@ import winston from 'winston';
 
 export default class AzureMethods {
   constructor(settingsFile) {
-    this.meteorSettings = omit(settingsFile, 'azure-meteor-settings');
+    this.meteorSettings = omit(settingsFile, [
+      'azure-meteor-settings',
+      // Ensure compatibility with meteor-azure deployments
+      'meteor-azure',
+    ]);
 
     // Ensure settings for single-site (object) and multi-site (array of objects) are interoperable
     this.sites = settingsFile['azure-meteor-settings'];

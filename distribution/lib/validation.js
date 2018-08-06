@@ -47,7 +47,6 @@ function validateSettings(filePath) {
     tenantId: _joi2.default.string(),
     subscriptionId: _joi2.default.string(),
     deploymentCreds: _joi2.default.object({ username: _joi2.default.string(), password: _joi2.default.string() }),
-    envVariables: _joi2.default.object({ ROOT_URL: _joi2.default.string(), MONGO_URL: _joi2.default.string() }).unknown(true),
     slotName: _joi2.default.string().optional(),
     customServerInitRepo: _joi2.default.string().optional(),
     servicePrincipal: _joi2.default.object({ appId: _joi2.default.string(), secret: _joi2.default.string() }).optional()

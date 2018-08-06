@@ -1,60 +1,12 @@
 // Validation methods
 
-import fs from 'fs';
 import jsonfile from 'jsonfile';
 import winston from 'winston';
 import nth from 'lodash.nth';
 import dropRight from 'lodash.dropright';
 import Joi from 'joi';
-import commandExists from 'command-exists';
 
-export function validateMeteor(architecture) {
-  let release;
-  let packages;
-
-  // Ensure Meteor CLI is installed
-  winston.debug('check Meteor is installed');
-  if (commandExists.sync('meteor') === false) {
-    throw new Error('Meteor is not installed');
-  }
-
-  // Determine current release/packages from '.meteor' directory
-  try {
-    release = fs.readFileSync('.meteor/release', 'utf8');
-    packages = fs.readFileSync('.meteor/packages', 'utf8');
-  } catch (error) {
-    /* Abort the program if files are not found, this is a strong
-       indication we may not be in the root project directory */
-    throw new Error('You must be in a Meteor project directory');
-  }
-
-  // Determine major/minor version numbers by stripping non-numeric characters from release
-  const versionNumbers = release.replace(/[^0-9]/g, '');
-  const majorVersion = Number.parseInt(versionNumbers.charAt(0), 10);
-  const minorVersion = Number.parseInt(versionNumbers.charAt(1), 10);
-
-  // Ensure project does not use 'force-ssl' package
-  winston.debug('check for incompatible \'force-ssl\' package');
-  if (packages.includes('force-ssl')) {
-    throw new Error('The "force-ssl" package is not supported. Please read the docs to configure an HTTPS redirect in your web config.');
-  }
-
-  // Ensure current Meteor release is >= 1.4
-  winston.debug('check current Meteor release >= 1.4');
-  if (majorVersion < 1 || minorVersion < 4) {
-    throw new Error('Meteor version must be >= 1.4');
-  }
-
-  // Ensure current Meteor release >= 1.6 for 64-bit architecture
-  if (architecture === '64') {
-    winston.debug('check current Meteor release >= 1.6 for 64-bit Node');
-    if (majorVersion < 1 || minorVersion < 6) {
-      throw new Error('Meteor version must be >= 1.6 for 64-bit Node');
-    }
-  }
-}
-
-export function validateSettings(filePath) {
+export default function validateSettings(filePath) {
   let settingsFile;
 
   winston.info(`Validating settings file (${filePath})`);
@@ -81,7 +33,7 @@ export function validateSettings(filePath) {
   });
   const schema = Joi.object({
     // Accepts config as an object for single-site deploy or array of objects for multi-site
-    'meteor-azure': Joi.alternatives([
+    'azure-meteor-settings': Joi.alternatives([
       siteConfig,
       Joi.array()
         .items(siteConfig)

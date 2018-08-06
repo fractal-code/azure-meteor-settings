@@ -3,12 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.validateMeteor = validateMeteor;
-exports.validateSettings = validateSettings;
-
-var _fs = require('fs');
-
-var _fs2 = _interopRequireDefault(_fs);
+exports.default = validateSettings;
 
 var _jsonfile = require('jsonfile');
 
@@ -30,57 +25,7 @@ var _joi = require('joi');
 
 var _joi2 = _interopRequireDefault(_joi);
 
-var _commandExists = require('command-exists');
-
-var _commandExists2 = _interopRequireDefault(_commandExists);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function validateMeteor(architecture) {
-  var release = void 0;
-  var packages = void 0;
-
-  // Ensure Meteor CLI is installed
-  _winston2.default.debug('check Meteor is installed');
-  if (_commandExists2.default.sync('meteor') === false) {
-    throw new Error('Meteor is not installed');
-  }
-
-  // Determine current release/packages from '.meteor' directory
-  try {
-    release = _fs2.default.readFileSync('.meteor/release', 'utf8');
-    packages = _fs2.default.readFileSync('.meteor/packages', 'utf8');
-  } catch (error) {
-    /* Abort the program if files are not found, this is a strong
-       indication we may not be in the root project directory */
-    throw new Error('You must be in a Meteor project directory');
-  }
-
-  // Determine major/minor version numbers by stripping non-numeric characters from release
-  var versionNumbers = release.replace(/[^0-9]/g, '');
-  var majorVersion = Number.parseInt(versionNumbers.charAt(0), 10);
-  var minorVersion = Number.parseInt(versionNumbers.charAt(1), 10);
-
-  // Ensure project does not use 'force-ssl' package
-  _winston2.default.debug('check for incompatible \'force-ssl\' package');
-  if (packages.includes('force-ssl')) {
-    throw new Error('The "force-ssl" package is not supported. Please read the docs to configure an HTTPS redirect in your web config.');
-  }
-
-  // Ensure current Meteor release is >= 1.4
-  _winston2.default.debug('check current Meteor release >= 1.4');
-  if (majorVersion < 1 || minorVersion < 4) {
-    throw new Error('Meteor version must be >= 1.4');
-  }
-
-  // Ensure current Meteor release >= 1.6 for 64-bit architecture
-  if (architecture === '64') {
-    _winston2.default.debug('check current Meteor release >= 1.6 for 64-bit Node');
-    if (majorVersion < 1 || minorVersion < 6) {
-      throw new Error('Meteor version must be >= 1.6 for 64-bit Node');
-    }
-  }
-} // Validation methods
 
 function validateSettings(filePath) {
   var settingsFile = void 0;
@@ -109,7 +54,7 @@ function validateSettings(filePath) {
   });
   var schema = _joi2.default.object({
     // Accepts config as an object for single-site deploy or array of objects for multi-site
-    'meteor-azure': _joi2.default.alternatives([siteConfig, _joi2.default.array().items(siteConfig)
+    'azure-meteor-settings': _joi2.default.alternatives([siteConfig, _joi2.default.array().items(siteConfig)
     // Reject duplicated site
     .unique(function (a, b) {
       return a.siteName === b.siteName && a.slotName === b.slotName;
@@ -136,4 +81,4 @@ function validateSettings(filePath) {
   });
 
   return settingsFile;
-}
+} // Validation methods

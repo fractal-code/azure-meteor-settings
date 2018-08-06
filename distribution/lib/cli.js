@@ -82,9 +82,13 @@ exports.default = function () {
                       case 0:
                         azureMethods = new _azure2.default(settingsFile);
                         _context.next = 3;
-                        return azureMethods.updateMeteorSettings();
+                        return azureMethods.authenticateWithSdk();
 
                       case 3:
+                        _context.next = 5;
+                        return azureMethods.updateMeteorSettings();
+
+                      case 5:
                       case 'end':
                         return _context.stop();
                     }

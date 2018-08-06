@@ -42,6 +42,7 @@ export default async function startup() {
     // Push Meteor settings
     await forEachParallel(settingsFiles, async (settingsFile) => {
       const azureMethods = new AzureMethods(settingsFile);
+      await azureMethods.authenticateWithSdk();
       await azureMethods.updateMeteorSettings();
     });
   } catch (error) {
